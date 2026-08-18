@@ -1,0 +1,8 @@
+/.git
+/.github
+/.distignore
+/.gitignore
+/.editorconfig
+/.wordpress-org
+/phpcs.xml.dist
+/implementation_plan_git_release.md

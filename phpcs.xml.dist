@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<ruleset name="myCred Amelia WordPress Standards">
+	<description>PHPCS configuration for the myCred Amelia plugin</description>
+
+	<!-- Scan all files in the current directory and subdirectories -->
+	<file>.</file>
+
+	<!-- Exclude the vendor and node_modules directories if they exist -->
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+	<exclude-pattern>assets/build/*</exclude-pattern>
+	<exclude-pattern>assets/libs/*</exclude-pattern>
+	<exclude-pattern>.github/*</exclude-pattern>
+
+	<!-- How to scan -->
+	<arg value="sp"/> <!-- Show sniff and progress -->
+	<arg name="colors"/> <!-- Show results with colors -->
+	<arg name="basepath" value="."/> <!-- Strip the file paths down to the relevant bit -->
+	<arg name="parallel" value="8"/> <!-- Enables parallel processing when available -->
+	<arg name="extensions" value="php"/> <!-- Limit to PHP files -->
+
+	<!-- Rules -->
+	<!-- Include the WordPress ruleset -->
+	<rule ref="WordPress">
+		<!-- We may want to exclude a few rules if they are too strict for existing codebase -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+	</rule>
+
+	<!-- Verify that the text_domain is set to the desired text-domain. -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array" value="mycred-amelia"/>
+		</properties>
+	</rule>
+
+	<!-- PHP Compatibility -->
+	<config name="testVersion" value="7.0-"/>
+	<rule ref="PHPCompatibilityWP"/>
+</ruleset>

@@ -1,0 +1,122 @@
+name: PR Quality Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  phpcs:
+    name: WordPress Coding Standards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: none
+          tools: cs2pr
+
+      - name: Install WPCS and PHPCompatibilityWP
+        run: |
+          composer global require wp-coding-standards/wpcs:"^3.0"
+          composer global require phpcompatibility/phpcompatibility-wp:"*"
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+          composer global require dealerdirect/phpcodesniffer-composer-installer
+
+      - name: Run PHPCS
+        run: ~/.composer/vendor/bin/phpcs --report=checkstyle -q | cs2pr
+
+  plugin-metadata-check:
+    name: Metadata Change Detection
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check Metadata
+        id: check_metadata
+        run: |
+          BASE_BRANCH=${{ github.base_ref }}
+          git checkout $BASE_BRANCH
+          
+          # Get base file metadata
+          if [ -f "mycred-amelia.php" ]; then
+            BASE_VER=$(grep -i "Version:" mycred-amelia.php | awk -F':' '{print $2}' | xargs)
+          else
+            BASE_VER="N/A"
+          fi
+          
+          if [ -f "readme.txt" ]; then
+            BASE_STABLE=$(grep -i "Stable tag:" readme.txt | awk -F':' '{print $2}' | xargs)
+          else
+            BASE_STABLE="N/A"
+          fi
+          
+          git checkout ${{ github.event.pull_request.head.sha }}
+          
+          # Initialize comment body
+          COMMENT="### 🔍 Plugin Metadata Check\n\n"
+          ISSUES_FOUND=0
+          
+          # Check for filename change
+          if [ ! -f "mycred-amelia.php" ]; then
+            COMMENT="$COMMENT ❌ **CRITICAL**: The main plugin file \`mycred-amelia.php\` is missing or was renamed. This will break the plugin!\n"
+            ISSUES_FOUND=1
+          else
+            # Check headers
+            PR_VER=$(grep -i "Version:" mycred-amelia.php | awk -F':' '{print $2}' | xargs)
+            
+            if [ "$PR_VER" != "$BASE_VER" ]; then
+              COMMENT="$COMMENT ℹ️ **Notice**: Plugin version updated from \`$BASE_VER\` to \`$PR_VER\`.\n"
+            fi
+            
+            # Check readme.txt
+            if [ -f "readme.txt" ]; then
+              PR_STABLE=$(grep -i "Stable tag:" readme.txt | awk -F':' '{print $2}' | xargs)
+              
+              if [ "$PR_STABLE" != "$BASE_STABLE" ]; then
+                COMMENT="$COMMENT ℹ️ **Notice**: Readme Stable tag updated from \`$BASE_STABLE\` to \`$PR_STABLE\`.\n"
+              fi
+              
+              if [ "$PR_VER" != "$PR_STABLE" ]; then
+                 COMMENT="$COMMENT ⚠️ **Warning**: Version mismatch! \`mycred-amelia.php\` is version **$PR_VER** but \`readme.txt\` Stable tag is **$PR_STABLE**. These should match before release.\n"
+                 ISSUES_FOUND=1
+              else
+                 COMMENT="$COMMENT ✅ **Success**: Main plugin version and Readme Stable tag match ($PR_VER).\n"
+              fi
+            else
+               COMMENT="$COMMENT ❌ **Error**: \`readme.txt\` is missing!\n"
+               ISSUES_FOUND=1
+            fi
+          fi
+          
+          if [ $ISSUES_FOUND -eq 0 ]; then
+            COMMENT="$COMMENT \nAll metadata checks passed successfully! 🎉"
+          fi
+          
+          # Export for next step (using GitHub env file)
+          {
+            echo 'COMMENT_BODY<<EOF'
+            echo -e "$COMMENT"
+            echo EOF
+          } >> "$GITHUB_ENV"
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: process.env.COMMENT_BODY
+            })
