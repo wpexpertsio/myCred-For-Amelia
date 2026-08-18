@@ -8,7 +8,7 @@
  * Author URI: http://mycred.me
  * Author Email: support@mycred.me
  * Requires at least: WP 4.8
- * Tested up to: WP 6.8
+ * Tested up to: WP 7.0
  */
 
 defined( 'ABSPATH' ) || exit;

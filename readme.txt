@@ -63,7 +63,7 @@ For the **myCred Amelia addon** to work on your WordPress powered site, you are 
 
 == Changelog ==
 
-= 2.1.0 =
+= 2.0.0 =
 New – Added a runtime override for Amelia point-payment wording so the frontend shows clear point-based confirmation text.
 New – Improved point-based booking UX and added support for conversion rate, rounding, buy points URL, and insufficient balance messaging.
 Fix – Improved refund and duplicate payment handling for Amelia point payments.
