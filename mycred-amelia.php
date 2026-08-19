@@ -3,7 +3,7 @@
  * Plugin Name: myCred Amelia
  * Plugin URI: https://mycred.me
  * Description: myCred-Amelia connects myCred points management with the Amelia appointment-booking WordPress plugin.
- * Version: 2.1.0
+ * Version: 2.0.0
  * Author: myCred
  * Author URI: http://mycred.me
  * Author Email: support@mycred.me
