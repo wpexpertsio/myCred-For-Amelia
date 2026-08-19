@@ -51,15 +51,6 @@
 		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
 	</rule>
 
-	<!-- Exclude PHPCompatibility forbidden parameter names for legacy code -->
-	<rule ref="PHPCompatibility.FunctionDeclarations.ForbiddenParametersWithSpecialNames">
-		<exclude name="PHPCompatibility.FunctionDeclarations.ForbiddenParametersWithSpecialNames.objectFound" />
-	</rule>
-
-	<rule ref="PHPCompatibility.Keywords.ForbiddenNamesAsDeclared">
-		<exclude name="PHPCompatibility.Keywords.ForbiddenNamesAsDeclared.objectFound" />
-	</rule>
-
 	<!-- Verify that the text_domain is set to the desired text-domain -->
 	<rule ref="WordPress.WP.I18n">
 		<properties>
