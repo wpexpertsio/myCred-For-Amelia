@@ -1,6 +1,6 @@
 <?php
 /**
- * myCRED + Amelia: award points when an appointment is approved.
+ * Award points when an Amelia appointment is approved.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,7 +22,7 @@ if ( ! function_exists( 'mycred_amelia_debug_log' ) ) {
 }
 
 /**
- * Custom myCRED hook.
+ * Custom myCRED hook implementation.
  */
 if ( class_exists( 'myCRED_Hook' ) && ! class_exists( 'myCRED_Amelia_Booking_Completion_Hook' ) ) {
 

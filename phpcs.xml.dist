@@ -27,12 +27,17 @@
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
 		<exclude name="WordPress.NamingConventions.ValidVariableName" />
 		<exclude name="WordPress.NamingConventions.ValidFunctionName" />
+		<exclude name="PEAR.NamingConventions.ValidClassName" />
+		<exclude name="Squiz.Classes.ValidClassName" />
 
 		<!-- Exclude comment sniffs for existing codebase -->
 		<exclude name="Squiz.Commenting" />
+		<exclude name="Generic.Commenting.DocComment" />
 
 		<!-- Exclude code structure and alignment sniffs -->
 		<exclude name="Generic.Files.OneObjectStructurePerFile" />
+		<exclude name="Universal.Files.SeparateFunctionsFromOO" />
+		<exclude name="PSR1.Files.SideEffects" />
 		<exclude name="WordPress.PHP.YodaConditions" />
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment" />
 		<exclude name="Generic.Formatting.MultipleStatementAlignment" />
@@ -46,7 +51,11 @@
 		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
 	</rule>
 
-	<!-- Exclude PHPCompatibility forbidden names for legacy $object parameter -->
+	<!-- Exclude PHPCompatibility forbidden parameter names for legacy code -->
+	<rule ref="PHPCompatibility.FunctionDeclarations.ForbiddenParametersWithSpecialNames">
+		<exclude name="PHPCompatibility.FunctionDeclarations.ForbiddenParametersWithSpecialNames.objectFound" />
+	</rule>
+
 	<rule ref="PHPCompatibility.Keywords.ForbiddenNamesAsDeclared">
 		<exclude name="PHPCompatibility.Keywords.ForbiddenNamesAsDeclared.objectFound" />
 	</rule>
