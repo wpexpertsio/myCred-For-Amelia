@@ -5,6 +5,8 @@ on:
     branches:
       - main
       - master
+      - development
+      - dev
 
 jobs:
   phpcs:
@@ -23,9 +25,9 @@ jobs:
 
       - name: Install WPCS and PHPCompatibilityWP
         run: |
+          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer global require wp-coding-standards/wpcs:"^3.0"
           composer global require phpcompatibility/phpcompatibility-wp:"*"
-          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
           composer global require dealerdirect/phpcodesniffer-composer-installer
 
       - name: Run PHPCS

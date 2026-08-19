@@ -4,7 +4,7 @@ Tags: mycred, amelia, booking, reservations, scheduling
 Requires at least: 4.5
 Tested up to: 6.8
 Requires PHP: 7.0
-Stable tag: 2.1.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,7 +63,7 @@ For the **myCred Amelia addon** to work on your WordPress powered site, you are 
 
 == Changelog ==
 
-= 2.1.0 =
+= 2.0.0 =
 New – Added a runtime override for Amelia point-payment wording so the frontend shows clear point-based confirmation text.
 New – Improved point-based booking UX and added support for conversion rate, rounding, buy points URL, and insufficient balance messaging.
 Fix – Improved refund and duplicate payment handling for Amelia point payments.

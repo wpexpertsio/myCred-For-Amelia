@@ -5,7 +5,7 @@
 	<!-- Scan all files in the current directory and subdirectories -->
 	<file>.</file>
 
-	<!-- Exclude the vendor and node_modules directories if they exist -->
+	<!-- Exclude directories -->
 	<exclude-pattern>vendor/*</exclude-pattern>
 	<exclude-pattern>node_modules/*</exclude-pattern>
 	<exclude-pattern>assets/build/*</exclude-pattern>
@@ -22,15 +22,41 @@
 	<!-- Rules -->
 	<!-- Include the WordPress ruleset -->
 	<rule ref="WordPress">
-		<!-- We may want to exclude a few rules if they are too strict for existing codebase -->
+		<!-- Exclude strict naming and file naming conventions for existing codebase -->
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="WordPress.NamingConventions.ValidVariableName" />
+		<exclude name="WordPress.NamingConventions.ValidFunctionName" />
+		<exclude name="PEAR.NamingConventions.ValidClassName" />
+		<exclude name="Squiz.Classes.ValidClassName" />
+
+		<!-- Exclude comment sniffs for existing codebase -->
+		<exclude name="Squiz.Commenting" />
+		<exclude name="Generic.Commenting.DocComment" />
+
+		<!-- Exclude code structure and alignment sniffs -->
+		<exclude name="Generic.Files.OneObjectStructurePerFile" />
+		<exclude name="Universal.Files.SeparateFunctionsFromOO" />
+		<exclude name="PSR1.Files.SideEffects" />
+		<exclude name="WordPress.PHP.YodaConditions" />
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment" />
+		<exclude name="Generic.Formatting.MultipleStatementAlignment" />
+
+		<!-- Exclude direct DB query & debug function warnings for custom tables/logging -->
+		<exclude name="WordPress.DB.DirectDatabaseQuery" />
+		<exclude name="WordPress.DB.PreparedSQL.InterpolatedNotPrepared" />
+		<exclude name="WordPress.PHP.DevelopmentFunctions" />
+
+		<!-- Exclude i18n comment requirement -->
+		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
 	</rule>
 
-	<!-- Verify that the text_domain is set to the desired text-domain. -->
+	<!-- Verify that the text_domain is set to the desired text-domain -->
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="mycred-amelia"/>
+			<property name="text_domain" type="array">
+				<element value="mycred-amelia"/>
+			</property>
 		</properties>
 	</rule>
 

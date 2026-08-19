@@ -12,7 +12,7 @@ if ( class_exists( 'myCRED_Module' ) && ! class_exists( 'myCred_Amelia_Settings'
 			add_filter( 'mycred_save_core_prefs', array( $this, 'mycred_amelia_save_settings' ), 10, 3 );
 		}
 
-		public function mycred_amelia_display_settings( $object ) {
+		public function mycred_amelia_display_settings( $mycred_object ) {
 			$settings    = function_exists( 'mycred_amelia_get_settings' ) ? mycred_amelia_get_settings() : array();
 			$point_types = function_exists( 'mycred_get_types' ) ? mycred_get_types() : array( $settings['point_type'] => $settings['point_type'] );
 			?>
@@ -113,7 +113,7 @@ if ( class_exists( 'myCRED_Module' ) && ! class_exists( 'myCred_Amelia_Settings'
 			<?php
 		}
 
-		public function mycred_amelia_save_settings( $new_data, $post, $object ) {
+		public function mycred_amelia_save_settings( $new_data, $post, $mycred_object ) {
 			$posted   = isset( $post['mycred_amelia'] ) && is_array( $post['mycred_amelia'] ) ? $post['mycred_amelia'] : array();
 			$settings = function_exists( 'mycred_amelia_sanitize_settings' ) ? mycred_amelia_sanitize_settings( $posted ) : $posted;
 
